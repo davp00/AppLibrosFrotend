@@ -1,20 +1,26 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import LoginPage from "./Pages/Login";
 import RegisterPage from "./Pages/Register";
 import './App.css';
 import './CSS/spacing.css';
+import {AuthRoute} from "./Component/AuthRoute";
+import {PrivateRoute} from "./Component/PrivateRoute";
+import HomePage from "./Pages/HomePage";
 
 function App() {
   return (
     <Router >
-      <Route path={'/login'} exact>
+      <AuthRoute path={'/login'} exact>
         <LoginPage />
-      </Route>
-      <Route path={'/register'} exact>
+      </AuthRoute>
+      <AuthRoute path={'/register'} exact>
         <RegisterPage />
-      </Route>
+      </AuthRoute>
+        <PrivateRoute path={'/'} exact>
+            <HomePage />
+        </PrivateRoute>
     </Router>
   );
 }

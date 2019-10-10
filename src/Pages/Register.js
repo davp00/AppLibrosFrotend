@@ -5,9 +5,11 @@ import {Link} from "react-router-dom";
 import Fade from 'react-reveal/Fade';
 import axios from 'axios';
 import { API_URL } from "../config";
+import { withRouter } from 'react-router-dom';
+import LoadingSpin from './../Component/LoadingSpin'
 
 const { Title } = Typography;
-const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+
 
 class RegisterPage extends Component {
     constructor(props)
@@ -20,6 +22,10 @@ class RegisterPage extends Component {
             pass: '',
             loading: false
         }
+    }
+
+    componentWillMount() {
+        document.title = 'Registrate - AppBook'
     }
 
     handleOnSubmit = ( e ) =>
@@ -45,6 +51,11 @@ class RegisterPage extends Component {
                             email: '',
                             password: '',
                         });
+
+                        setTimeout(( ) =>
+                        {
+                            this.props.history.push('/login');
+                        }, 2000);
                     }else
                         message.error(data.message);
 
@@ -79,7 +90,7 @@ class RegisterPage extends Component {
                 </div>
                 <Fade>
                     <div className='right-form pt-form pr-5'>
-                        <Spin spinning={this.state.loading} tip='Registrando...' indicator={antIcon}>
+                        <Spin spinning={this.state.loading} tip='Registrando...' indicator={LoadingSpin}>
                             <Title>Registro</Title>
                             <Form className='mt-5' onSubmit={this.handleOnSubmit}>
                                 <Form.Item>
@@ -139,4 +150,4 @@ class RegisterPage extends Component {
     }
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);
