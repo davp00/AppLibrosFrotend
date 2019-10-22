@@ -21,6 +21,10 @@ class LoginPage extends Component {
     }
 
     componentWillMount() {
+        if(localStorage.getItem('user_id'))
+        {
+            this.props.history.push('/admin');
+        }
         document.title = 'Inicia Sesión - AppBook'
     }
 
@@ -37,9 +41,11 @@ class LoginPage extends Component {
                     if(data.error)
                     {
                         message.error(data.message);
+                    }else
+                    {
+                        localStorage.setItem('user_id', data.id);
+                        this.props.history.push('/');
                     }
-                    localStorage.setItem('user_id', data.id);
-                    this.props.history.push('/');
                     this.setState({loading:false});
                 }
             ).catch(
@@ -64,8 +70,6 @@ class LoginPage extends Component {
             return state;
 
         });
-
-
     };
 
     render() {
@@ -75,7 +79,7 @@ class LoginPage extends Component {
                 </div>
                 <Fade>
                     <div className='right-form pt-form pr-5'>
-                        <Spin spinning={this.state.loading} tip='Registrando...' indicator={LoadingSpin}>
+                        <Spin spinning={this.state.loading} tip='Verificando...' indicator={LoadingSpin}>
                             <Title>Iniciar Sesión</Title>
                             <Form className='mt-5' onSubmit={this.handleOnSubmit}>
                                 <Form.Item>
@@ -103,7 +107,7 @@ class LoginPage extends Component {
                                         Iniciar
                                     </Button>
                                 </Form.Item>
-                                <Form.Item>
+                                <Form.Item style={{display: 'none'}}>
                                     ¿No tienes una cuenta? <Link to='/register'>Registrate ahora!</Link>
                                 </Form.Item>
                             </Form>

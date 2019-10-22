@@ -25,6 +25,10 @@ class RegisterPage extends Component {
     }
 
     componentWillMount() {
+        if(localStorage.getItem('user_id'))
+        {
+            this.props.history.push('/admin');
+        }
         document.title = 'Registrate - AppBook'
     }
 
